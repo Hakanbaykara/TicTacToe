@@ -1,0 +1,88 @@
+[debug] [2022-09-05T10:05:20.761Z] ----------------------------------------------------------------------
+[debug] [2022-09-05T10:05:20.763Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hakan\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-09-05T10:05:20.763Z] CLI Version:   11.8.0
+[debug] [2022-09-05T10:05:20.763Z] Platform:      win32
+[debug] [2022-09-05T10:05:20.763Z] Node Version:  v16.15.1
+[debug] [2022-09-05T10:05:20.764Z] Time:          Mon Sep 05 2022 13:05:20 GMT+0300 (GMT+03:00)
+[debug] [2022-09-05T10:05:20.765Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-09-05T10:05:20.827Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-09-05T10:05:20.827Z] > authorizing via signed-in user (hsbaykara98@gmail.com)
+[debug] [2022-09-05T10:05:20.828Z] [iam] checking project task-2-f7378 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-09-05T10:05:20.830Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions [none]
+[debug] [2022-09-05T10:05:20.830Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions x-goog-quota-user=projects/task-2-f7378
+[debug] [2022-09-05T10:05:20.830Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-09-05T10:05:21.790Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions 200
+[debug] [2022-09-05T10:05:21.791Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-09-05T10:05:21.792Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 [none]
+[debug] [2022-09-05T10:05:22.233Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 200
+[debug] [2022-09-05T10:05:22.233Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 {"projectId":"task-2-f7378","projectNumber":"606512926049","displayName":"Task-2","name":"projects/task-2-f7378","resources":{"hostingSite":"task-2-f7378"},"state":"ACTIVE","etag":"1_c4826bad-f2a9-475e-9ae8-32f1fa05776b"}
+[info] 
+[info] === Deploying to 'task-2-f7378'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2022-09-05T10:05:22.238Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 [none]
+[debug] [2022-09-05T10:05:22.633Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 200
+[debug] [2022-09-05T10:05:22.634Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 {"projectId":"task-2-f7378","projectNumber":"606512926049","displayName":"Task-2","name":"projects/task-2-f7378","resources":{"hostingSite":"task-2-f7378"},"state":"ACTIVE","etag":"1_c4826bad-f2a9-475e-9ae8-32f1fa05776b"}
+[debug] [2022-09-05T10:05:22.635Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions [none]
+[debug] [2022-09-05T10:05:22.635Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions {"config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2022-09-05T10:05:23.912Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions 500
+[debug] [2022-09-05T10:05:23.912Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions {"error":{"code":500,"message":"Internal error encountered.","status":"INTERNAL"}}
+[error] 
+[error] Error: HTTP Error: 500, Internal error encountered.
+[debug] [2022-09-05T10:05:24.157Z] Error Context: {
+  "body": {
+    "error": {
+      "code": 500,
+      "message": "Internal error encountered.",
+      "status": "INTERNAL"
+    }
+  },
+  "response": {
+    "statusCode": 500
+  }
+}
+[debug] [2022-09-05T10:08:07.970Z] ----------------------------------------------------------------------
+[debug] [2022-09-05T10:08:07.972Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hakan\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2022-09-05T10:08:07.972Z] CLI Version:   11.8.0
+[debug] [2022-09-05T10:08:07.972Z] Platform:      win32
+[debug] [2022-09-05T10:08:07.973Z] Node Version:  v16.15.1
+[debug] [2022-09-05T10:08:07.973Z] Time:          Mon Sep 05 2022 13:08:07 GMT+0300 (GMT+03:00)
+[debug] [2022-09-05T10:08:07.974Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-09-05T10:08:08.035Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-09-05T10:08:08.036Z] > authorizing via signed-in user (hsbaykara98@gmail.com)
+[debug] [2022-09-05T10:08:08.036Z] [iam] checking project task-2-f7378 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-09-05T10:08:08.038Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions [none]
+[debug] [2022-09-05T10:08:08.039Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions x-goog-quota-user=projects/task-2-f7378
+[debug] [2022-09-05T10:08:08.039Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-09-05T10:08:09.433Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions 200
+[debug] [2022-09-05T10:08:09.433Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/task-2-f7378:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-09-05T10:08:09.434Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 [none]
+[debug] [2022-09-05T10:08:09.839Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 200
+[debug] [2022-09-05T10:08:09.840Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 {"projectId":"task-2-f7378","projectNumber":"606512926049","displayName":"Task-2","name":"projects/task-2-f7378","resources":{"hostingSite":"task-2-f7378"},"state":"ACTIVE","etag":"1_c4826bad-f2a9-475e-9ae8-32f1fa05776b"}
+[info] 
+[info] === Deploying to 'task-2-f7378'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2022-09-05T10:08:09.846Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 [none]
+[debug] [2022-09-05T10:08:10.278Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 200
+[debug] [2022-09-05T10:08:10.278Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/task-2-f7378 {"projectId":"task-2-f7378","projectNumber":"606512926049","displayName":"Task-2","name":"projects/task-2-f7378","resources":{"hostingSite":"task-2-f7378"},"state":"ACTIVE","etag":"1_c4826bad-f2a9-475e-9ae8-32f1fa05776b"}
+[debug] [2022-09-05T10:08:10.280Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions [none]
+[debug] [2022-09-05T10:08:10.280Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions {"config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2022-09-05T10:08:11.666Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions 500
+[debug] [2022-09-05T10:08:11.666Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/606512926049/sites/task-2-f7378/versions {"error":{"code":500,"message":"Internal error encountered.","status":"INTERNAL"}}
+[error] 
+[error] Error: HTTP Error: 500, Internal error encountered.
+[debug] [2022-09-05T10:08:12.035Z] Error Context: {
+  "body": {
+    "error": {
+      "code": 500,
+      "message": "Internal error encountered.",
+      "status": "INTERNAL"
+    }
+  },
+  "response": {
+    "statusCode": 500
+  }
+}
