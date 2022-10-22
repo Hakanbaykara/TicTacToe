@@ -23,16 +23,22 @@ export default Game = () => {
   const [currentTurn, setCurrentTurn] = useState('X');
 
   const [gameMode, setGameMode] = useState('BOT_EASY'); // 1v1, BOT_EASY, BOT_MEDIUM;
-  const [data, setData] = useState(['']);
-  const [gameId, setGameId] = useState(null);
+  const [data, setData] = useState([]);
+  const [gameId, setGameId] = useState('');
 
   useEffect(() => {
     resetGame();
-    console.log(data);
     if (gameMode == 'ONLINE') {
+      console.log(data.toString());
+      console.log(Object.values(data).toString());
+      console.log(data);
       findOrCreateOnlineGame();
     } else {
       deleteTemporaryGame();
+    }
+    setCurrentTurn('X');
+    if (gameMode !== 'ONLINE') {
+      setOurPlayerType('X');
     }
   }, [gameMode]);
 
@@ -51,15 +57,17 @@ export default Game = () => {
     if (!data) {
       return;
     }
-
-    //update game map and turn
-    // database()
-    //   .ref('Game/' + gameId)
-    //   .update({
-    //     currentPlayer: currentTurn,
-    //     map: JSON.stringify(map),
-    //   });
-  }, [currentTurn, data]);
+    // update game map and turn
+    if (gameMode == 'ONLINE' && gameId) {
+      database()
+        .ref('Game/' + `${gameId}`)
+        .update({
+          currentPlayer: currentTurn,
+          map: JSON.stringify(map),
+        }
+        );
+    }
+  }, [currentTurn, gameMode]);
 
   useEffect(() => {
     const winner = getWinner(map);
@@ -72,13 +80,34 @@ export default Game = () => {
     //update game map
   }, [map]);
 
+  var getData = item => {
+    return [item].join(' ');
+  };
+
+   useEffect(() => {
+     database()
+       .ref('Game/')
+       .on('value', snapshot => {
+         const response = snapshot.val()
+         const newArr = Object.keys(response).map(key => {
+           response[key].id = key;
+           return response[key];
+         });
+         setData(newArr);
+         // console.log("bu mudur? ", Object.values(newArr.pop())[2]);
+       });
+   },[]);
+
   const findOrCreateOnlineGame = async () => {
     //Search for available game that doesn't have the second player
     const games = await getAvailableGames();
-    await console.log(data);
 
     if (games.length > 0) {
-      joinGame(games[games.length - 1]);
+      var stringGameId = Object.values(data)[2];
+      console.log(stringGameId);
+      setGameId(stringGameId);
+      typeof gameId;
+      joinGame(games);
     } else {
       await createNewGame();
     }
@@ -86,13 +115,16 @@ export default Game = () => {
   };
 
   const joinGame = async game => {
-    const updatedGame = await database()
-      .ref('Game/')
-      .child(game.id)
-      .update({playerO: user.uid})
-      .then(console.log('updated! =', user.uid));
+    if (data) {
+      await database()
+        .ref('Game/' + `${gameId}`)
+        .update({playerO: user.uid})
+        .then(console.log('updated! =', user.uid));
 
-    setOurPlayerType('O');
+      setOurPlayerType('O');
+      setCurrentTurn(Object.values(data[0].currentPlayer));
+      // *************************
+    }
   };
 
   const getAvailableGames = async () => {
@@ -105,13 +137,10 @@ export default Game = () => {
           return response[key];
         });
         setData(newArr);
-        setGameId(data);
       });
+
     return data;
   };
-
-  const ref = database().ref('Game/').push();
-  const key = ref.key;
 
   const createNewGame = async () => {
     const emptyStringMap = JSON.stringify([
@@ -119,31 +148,34 @@ export default Game = () => {
       ['', '', ''],
       ['', '', ''],
     ]);
-
+    var currentTime = Date.now();
     const createdGame = await database()
-      .ref('Game/' + key)
+      .ref('Game/' + currentTime)
       .set({
         playerX: user.uid,
-        playerO: '',
         map: emptyStringMap,
         currentPlayer: 'X',
         pointsX: 0,
         pointsO: 0,
-        id: key,
+        id: currentTime,
       });
     setOurPlayerType('X');
+    setGameId(currentTime);
   };
 
   const deleteTemporaryGame = async () => {
-    if (!data || data.playerO) {
+    if (!data || Object.keys(data).playerO) {
       return;
     }
-    await database().ref('Game/'+ gameId).set('');
+    await database()
+      .ref('Game/' + gameId)
+      .set('');
   };
 
   const onPress = (rowIndex, columnIndex) => {
-    if (gameMode == 'ONLINE' && data?.currentPlayer !== ourPlayerType) {
+    if (gameMode === 'ONLINE' && currentTurn !== ourPlayerType) {
       Alert.alert('Not your turn');
+      console.log(ourPlayerType);
       return;
     }
 
@@ -221,7 +253,7 @@ export default Game = () => {
       ['', '', ''],
       ['', '', ''],
     ]);
-    setCurrentTurn('x');
+    setCurrentTurn('X');
   };
 
   return (
@@ -259,8 +291,8 @@ export default Game = () => {
             marginTop: 50,
             top: 120,
           }}>
-          Current Turn: {currentTurn.toUpperCase()} {'\n'}
-          {data.length > 0 && <Text>Game id: {key}</Text>}
+          Current Turn: {currentTurn} {'\n'}
+          {data?.length > 0 && gameMode == 'ONLINE' && <Text>Game id: {gameId}</Text>}
         </Text>
         <View style={styles.map}>
           {map.map((row, rowIndex) => (
@@ -322,7 +354,7 @@ export default Game = () => {
               Medium Bot
             </Text>
             <Text
-              onPress={() => setGameMode('ONLINE')}
+              onPress={() => [setGameMode('ONLINE'), getAvailableGames()]}
               style={[
                 styles.button,
                 {

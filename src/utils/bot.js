@@ -19,10 +19,10 @@ export const botTurn = (map, gameMode) => {
       possiablePositions.forEach(possiablePosition => {
         const mapCopy = copyArray(map);
 
-        mapCopy[possiablePosition.row][possiablePosition.col] = 'o';
+        mapCopy[possiablePosition.row][possiablePosition.col] = 'O';
 
         const winner = getWinner(mapCopy);
-        if (winner === 'o') {
+        if (winner === 'O') {
           // Attack that position
           chosenOption = possiablePosition;
         }
@@ -34,10 +34,10 @@ export const botTurn = (map, gameMode) => {
         possiablePositions.forEach(possiablePosition => {
           const mapCopy = copyArray(map);
 
-          mapCopy[possiablePosition.row][possiablePosition.col] = 'x';
+          mapCopy[possiablePosition.row][possiablePosition.col] = 'X';
 
           const winner = getWinner(mapCopy);
-          if (winner === 'x') {
+          if (winner === 'X') {
             // Defend that position
             chosenOption = possiablePosition;
           }

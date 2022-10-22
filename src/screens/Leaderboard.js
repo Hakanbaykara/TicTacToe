@@ -25,7 +25,7 @@ export default Leaderboard = () => {
           return response[key];
         });
         setData(newArr);
-        console.log(newArr)
+        console.log(newArr[0].id)
       });
   }, []);
 
