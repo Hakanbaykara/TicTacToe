@@ -31,7 +31,7 @@ export default HomeScreen = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Leaderboard')}>
+        onPress={() => navigation.navigate('MultiPlayer')}>
         <Text style={styles.buttonText}>Multiplayer</Text>
       </TouchableOpacity>
       <TouchableOpacity

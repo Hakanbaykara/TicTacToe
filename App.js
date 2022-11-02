@@ -6,6 +6,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import Game from './src/screens/Game';
 import Leaderboard from './src/screens/Leaderboard';
 import SignUp from './src/screens/SignUp';
+import MultiPlayer from './src/screens/MultiPlayer';
 
 const Stack = createNativeStackNavigator()
 
@@ -23,6 +24,7 @@ const App = () => {
         <Stack.Screen name="SignUp" component={SignUp}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Game" component={Game}/>
+        <Stack.Screen name="MultiPlayer" component={MultiPlayer}/>
         <Stack.Screen name="Leaderboard" component={Leaderboard}/>
       </Stack.Navigator>
     </NavigationContainer>

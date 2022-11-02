@@ -29,9 +29,6 @@ export default Game = () => {
   useEffect(() => {
     resetGame();
     if (gameMode == 'ONLINE') {
-      console.log(data.toString());
-      console.log(Object.values(data).toString());
-      console.log(data);
       findOrCreateOnlineGame();
     } else {
       deleteTemporaryGame();
@@ -64,10 +61,9 @@ export default Game = () => {
         .update({
           currentPlayer: currentTurn,
           map: JSON.stringify(map),
-        }
-        );
+        });
     }
-  }, [currentTurn, gameMode]);
+  }, [currentTurn]);
 
   useEffect(() => {
     const winner = getWinner(map);
@@ -80,33 +76,14 @@ export default Game = () => {
     //update game map
   }, [map]);
 
-  var getData = item => {
-    return [item].join(' ');
-  };
-
-   useEffect(() => {
-     database()
-       .ref('Game/')
-       .on('value', snapshot => {
-         const response = snapshot.val()
-         const newArr = Object.keys(response).map(key => {
-           response[key].id = key;
-           return response[key];
-         });
-         setData(newArr);
-         // console.log("bu mudur? ", Object.values(newArr.pop())[2]);
-       });
-   },[]);
-
   const findOrCreateOnlineGame = async () => {
     //Search for available game that doesn't have the second player
     const games = await getAvailableGames();
 
-    if (games.length > 0) {
-      var stringGameId = Object.values(data)[2];
-      console.log(stringGameId);
+    if (
+      Object.keys(data).length > 0) {
+      const stringGameId = Object.keys(games)[0].toString();
       setGameId(stringGameId);
-      typeof gameId;
       joinGame(games);
     } else {
       await createNewGame();
@@ -114,32 +91,32 @@ export default Game = () => {
     // if no existing game are found, create a new one and wait for the opponent
   };
 
-  const joinGame = async game => {
-    if (data) {
-      await database()
-        .ref('Game/' + `${gameId}`)
-        .update({playerO: user.uid})
-        .then(console.log('updated! =', user.uid));
-
-      setOurPlayerType('O');
-      setCurrentTurn(Object.values(data[0].currentPlayer));
-      // *************************
-    }
-  };
-
   const getAvailableGames = async () => {
     await database()
       .ref('Game/')
+      .orderByChild('status')
+      .equalTo('free')
       .on('value', snapshot => {
-        const response = snapshot.val();
-        const newArr = Object.keys(response).map(key => {
-          response[key].id = key;
-          return response[key];
-        });
-        setData(newArr);
+        if (snapshot.exists()) {
+          setData(snapshot.val());
+        };
+
+        console.log('here is response: ', snapshot.val());
+        console.log('here is data: ', data);
       });
 
     return data;
+  };
+
+  const joinGame = async game => {
+    if (game) {
+      await database()
+        .ref('Game/' + `${gameId}`)
+        .update({playerO: user.uid, status: 'full'})
+        .then(console.log('updated! =', user.uid))
+        .then(setOurPlayerType('O'))
+        .then(setCurrentTurn(Object.values(game)[0].currentPlayer));
+    }
   };
 
   const createNewGame = async () => {
@@ -153,23 +130,48 @@ export default Game = () => {
       .ref('Game/' + currentTime)
       .set({
         playerX: user.uid,
+        playerO: '',
         map: emptyStringMap,
         currentPlayer: 'X',
         pointsX: 0,
         pointsO: 0,
         id: currentTime,
+        status: 'free',
       });
     setOurPlayerType('X');
     setGameId(currentTime);
   };
 
   const deleteTemporaryGame = async () => {
-    if (!data || Object.keys(data).playerO) {
-      return;
-    }
-    await database()
-      .ref('Game/' + gameId)
-      .set('');
+    var GameData = await console.log('delete: ', data);
+    if (Object.keys(data).length > 0) {
+      if (Object.values(data).playerO == user.uid) {
+        database()
+          .ref('Game/' + gameId)
+          .update({playerO: '', status: 'free'})
+          .then(console.log('updated! playerO is free'));
+      }
+      if (
+        Object.values(data)[0].playerX == user.uid ||
+        Object.values(data)[0].playerO !== ''
+      ) {
+        database()
+          .ref('Game/' + gameId)
+          .update({
+            playerX: Object.values(data)[0].playerO,
+            playerO: '',
+            status: 'free',
+          })
+          .then(console.log('updated! playerX is changed to playerO'));
+      }
+      if (Object.keys(data)[0].length > 0) {
+        database()
+          .ref('Game/' + gameId)
+          .set({});
+        setGameId('');
+        database().ref('Game/').set('');
+      }
+    } else return;
   };
 
   const onPress = (rowIndex, columnIndex) => {
@@ -213,6 +215,7 @@ export default Game = () => {
       .ref('scores/' + user.uid)
       .on('value', snapshot => {
         const myData = snapshot.val();
+        console.log(snapshot);
         setScore(myData.score);
       });
   }, [user.uid]);
@@ -292,7 +295,9 @@ export default Game = () => {
             top: 120,
           }}>
           Current Turn: {currentTurn} {'\n'}
-          {data?.length > 0 && gameMode == 'ONLINE' && <Text>Game id: {gameId}</Text>}
+          {data?.length > 0 && gameMode == 'ONLINE' && (
+            <Text>Game id: {gameId}</Text>
+          )}
         </Text>
         <View style={styles.map}>
           {map.map((row, rowIndex) => (
